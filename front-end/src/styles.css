@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+form {
+  max-width: 300px;
+  margin: auto;
+}
+
+input, button {
+  display: block;
+  margin: 10px 0;
+  padding: 8px;
+  width: 100%;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

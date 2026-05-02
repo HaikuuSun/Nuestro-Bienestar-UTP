@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este proyecto incluye un front-end en Angular, un back-end en Express y Node.js, y una base de datos MySQL.
+Este proyecto incluye un front-end en Angular con páginas de login e inicio, un back-end en Express y Node.js, y una base de datos MySQL. Es para administrativos de la UTP con correos @utp.edu.co, mostrando beneficios universitarios.
 
 ## Requisitos
 
