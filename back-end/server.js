@@ -1,28 +1,25 @@
-const express = require('express');
-const mysql = require('mysql2');
+const sequelize = require('./src/config/db');
+const app = require('./src/app');
+const dotenv = require('dotenv');
+require('./src/models/associations');
 
-const app = express();
-app.use(express.json());
+dotenv.config();
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '', // Cambia esto por tu contraseña de MySQL
-  database: 'test' // Cambia por tu base de datos
-});
+const PORT = process.env.PORT | 3000;
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to MySQL');
-});
+// Verificar la conexión a la base de datos
+sequelize.authenticate()
+    .then(() => {
+        console.log('[MySQL] Base de datos conectada');
+        app.listen(PORT, () => {
+            console.log(`[Express] Servidor ejecutándose en http://localhost:${PORT}`);
+        });
+    })
+    .catch(err => console.error('[MySQL] Error conectando a la base de datos: ', err));
 
-app.get('/api/data', (req, res) => {
-  db.query('SELECT * FROM users', (err, results) => { // Ejemplo de tabla
-    if (err) throw err;
-    res.json(results);
-  });
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+// Sincronizar la base de datos
+sequelize.sync({force: false}).then(() => {
+    console.log('[MySQL] Base de datos sincronizada');
+}).catch(err => {
+    console.error('[MySQL] Error al sincronizar la base de datos: ', err);
 });
