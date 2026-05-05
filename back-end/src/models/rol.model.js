@@ -11,14 +11,10 @@ const Rol = sequelize.define('roles', {
         type: DataTypes.STRING(30),
         allowNull: false,
         unique: true
-    },
-    permisos: {
-        type: DataTypes.STRING,
-        allowNull: false
     }
 }, {
     timestamps: false,
-    tablename: 'roles'
+    tableName: 'roles'
 });
 
 module.exports = Rol;
