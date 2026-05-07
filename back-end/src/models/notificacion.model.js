@@ -11,6 +11,26 @@ const Notificacion = sequelize.define('notificaciones', {
         type: DataTypes.STRING(50),
         allowNull: false
     },
+    mensaje: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+    leida: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    tipo: {
+        type: DataTypes.ENUM('info', 'alerta', 'recordatorio'),
+        defaultValue: 'info'
+    },
+    fecha_creacion: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    },
+    fecha_lectura: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
     usuario_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -18,7 +38,7 @@ const Notificacion = sequelize.define('notificaciones', {
     },
     post_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: { model: 'posts', key: 'id' }
     }
 }, {
