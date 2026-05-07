@@ -6,41 +6,18 @@ const Notificacion = require('./notificacion.model');
 
 // ============== MAPEO DE ENTIDADES ============== //
 
-// 1 usuario : 1 rol
-Usuario.belongsTo(Rol, {
-    foreignKey: 'id',
-    targetKey: 'id'
-});
-// 1 rol : Muchos usuarios
-Rol.hasMany(Usuario, {
-    foreignKey: 'id'
-});
+// 1. Usuarios y Roles
+Usuario.belongsTo(Rol, { foreignKey: 'rol_id', targetKey: 'id' }); // 1 : 1
+Rol.hasMany(Usuario, { foreignKey: 'rol_id', sourceKey: 'id' }); // 1 : N
 
-// 1 post : 1 categoría
-Post.belongsTo(Categoria, {
-    foreignKey: 'id',
-    targetKey: 'id'
-});
-// 1 categoría : Muchos posts
-Categoria.hasMany(Post, {
-    foreignKey: 'id'
-});
+// 2. Posts y Categorías
+Post.belongsTo(Categoria, { foreignKey: 'categoria_id', targetKey: 'id' }); // 1 : 1
+Categoria.hasMany(Post, { foreignKey: 'categoria_id', sourceKey: 'id' }); // 1 : N
 
-// 1 notificación : 1 usuario
-Notificacion.belongsTo(Usuario, {
-    foreignKey: 'id',
-    targetKey: 'id'
-});
-// 1 usuario : Muchas notificaciones
-Usuario.hasMany(Notificacion, {
-    foreignKey: 'id'
-});
-// 1 notificación : 1 post
-Notificacion.belongsTo(Post, {
-    foreignKey: 'id',
-    targetKey: 'id'
-});
-// 1 post : Muchas notificaciones
-Post.hasMany(Notificacion, {
-    foreignKey: 'id'
-});
+// 3. Notificaciones, Usuarios y Posts (Relación corregida)
+// Una notificación pertenece a un usuario y a un post
+Notificacion.belongsTo(Usuario, { foreignKey: 'usuario_id', targetKey: 'id' }); // 1 : 1
+Usuario.hasMany(Notificacion, { foreignKey: 'usuario_id', sourceKey: 'id' }); // 1 : N
+
+Notificacion.belongsTo(Post, { foreignKey: 'post_id', targetKey: 'id' }); // 1 : 1
+Post.hasMany(Notificacion, { foreignKey: 'post_id', sourceKey: 'id' }); // 1 : N
