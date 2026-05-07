@@ -24,11 +24,6 @@ const Post = sequelize.define('posts', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: { model: 'categorias', key: 'id' }
-    },
-    notificacion_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: { model: 'notificaciones', key: 'id' }
     }
 }, {
     timestamps: false,
