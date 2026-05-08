@@ -13,7 +13,7 @@ async function verificarDatoRepetido(campo, valor, mensaje) {
     }
 }
 
-async function verificarUsuarioInexistente(id) {
+async function verificarUsuarioExistente(id) {
     const usuario = await Usuario.findByPK(id);
 
     if (!usuario) {
@@ -56,7 +56,7 @@ exports.crearUsuario = async (nombre, correo, celular, contrasena, rol_id) => {
 // Obtener un usuario por su ID
 exports.obtenerUsuarioPorID = async (id) => {
     try {
-        const objetivo = await verificarUsuarioInexistente(id);
+        const objetivo = await verificarUsuarioExistente(id);
 
         const { contrasena, ...usuario } = objetivo.toJSON();
         return usuario;
@@ -84,14 +84,14 @@ exports.obtenerUsuariosPorRol = async (rol_id) => {
 exports.actualizarUsuario = async (id, datos) => {
     try {
         // 1. Obtener el usuario objetivo
-        const objetivo = await verificarUsuarioInexistente(id);
+        const objetivo = await verificarUsuarioExistente(id);
 
         // 2. Verificaciones para evitar duplicados (solo si el dato cambia)
         // Para el correo:
         if (datos.correo && datos.correo !== objetivo.correo) {
             await verificarDatoRepetido('correo', datos.correo, 'Este correo ya está en uso por otro usuario.');
         }
-        // Para el núemro de celular:
+        // Para el número de celular:
         if (datos.celular && datos.celular !== objetivo.celular) {
             await verificarDatoRepetido('celular', datos.celular, 'Este número de celular ya está en uso por otro usuario.');
         }
@@ -102,7 +102,17 @@ exports.actualizarUsuario = async (id, datos) => {
         }
 
         // 4. Actualizar el usuario en la BD
-        await objetivo.update(id);
+        await objetivo.update(
+            {
+                nombre: datos.nombre,
+                correo: datos.correo,
+                celular: datos.celular,
+                contrasena: datos.contrasena,
+                rol_id: datos.rol_id
+            }, {
+                where: { id }
+            }
+        );
 
         // 5. Devolver sin contraseña
         const usuarioActualizado = await objetivo.reload();
@@ -117,7 +127,7 @@ exports.actualizarUsuario = async (id, datos) => {
 exports.eliminarUsuario = async (id) => {
     try {
         // 1. Comprobar si existe el usuario
-        const objetivo = await verificarUsuarioInexistente(id);
+        const objetivo = await verificarUsuarioExistente(id);
         // 2. Eliminar de la BD
         await objetivo.destroy();
 
