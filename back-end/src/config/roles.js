@@ -6,17 +6,17 @@ module.exports = {
     },
     COORDINADOR: {
         nombre: 'Coordinador',
-        descripcion: 'Puede leer usuarios y actualizar beneficios',
-        rutas: ['/usuarios', '/beneficios']
+        descripcion: 'Puede leer usuarios, actualizar beneficios y convenios',
+        rutas: ['/usuarios', '/beneficios', '/convenios']
     },
     DOCENTE: {
         nombre: 'Docente',
         descripcion: 'Gestión de su propio perfil, lectura y gestión de sus inscripciones a beneficios',
-        rutas: ['/perfil', '/beneficios/leer', '/beneficios/inscribir']
+        rutas: ['/perfil', '/beneficios/buscar', '/beneficios/inscribir']
     },
     DEPENDENDIENTE: {
         nombre: 'Personal dependiente',
         descripcion: 'Gestión de su propio perfil, lectura y gestión de sus inscripciones a beneficios',
-        rutas: ['/perfil', '/beneficios/leer', '/beneficios/inscribir']
+        rutas: ['/perfil', '/beneficios/buscar', '/beneficios/inscribir']
     }
 };
