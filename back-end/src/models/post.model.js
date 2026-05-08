@@ -13,7 +13,7 @@ const Post = sequelize.define('posts', {
         unique: true
     },
     descripcion: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT,
         allowNull: false
     },
     fecha_validez: {
