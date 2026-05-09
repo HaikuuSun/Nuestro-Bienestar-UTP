@@ -1,6 +1,7 @@
 const Post = require('../models/post.model');
 const Categoria = require('../models/categoria.model');
 import verificarCategoriaExistente from './categoria.service';
+import obtenerConveniosPorIDs from './convenios.service';
 
 // =================================================================================================== //
 // Función de comprobación
@@ -16,7 +17,7 @@ async function verificarPostExistente(id) {
 
 // =================================================================================================== //
 // Crear un post de beneficio
-exports.crearPost = async (titulo, descripcion, fecha_validez, categoria_id) => {
+exports.crearPost = async (titulo, descripcion, fecha_validez, categoria_id, ids_convenios = []) => {
     try {
         // 1. Validar la existencia de la categoría
         const categoria = verificarCategoriaExistente(categoria_id);
@@ -28,6 +29,12 @@ exports.crearPost = async (titulo, descripcion, fecha_validez, categoria_id) => 
             fecha_validez,
             categoria_id
         });
+
+        // 3. Asociar convenios si se proporcionan
+        if (Array.isArray(ids_convenios) && ids_convenios.length > 0) {
+            const convenios = await obtenerConveniosPorIDs(ids_convenios);
+            await nuevoPost.addConvenios(convenios);
+        }
 
         return nuevoPost;
     } catch (error) {
