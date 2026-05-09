@@ -1,7 +1,8 @@
+const { Op } = require('sequelize'); // Objeto con operadores SQL
 const Convenio = require('../models/convenio.model');
 
 // =================================================================================================== //
-// Función de comprobación
+// Funciones reutilizables
 async function verificarConvenioExistente(id) {
     const convenio = await Convenio.findByPk(id);
 
@@ -9,7 +10,26 @@ async function verificarConvenioExistente(id) {
         throw new Error('No existe un convenio con este ID.');
     }
 
-    return convenio
+    return convenio;
+}
+
+async function obtenerConveniosPorIDs(ids = []) {
+    // 1. Si el array se entrega vacío, no se realiza la consulta
+    if (!Array.isArray(ids) || ids.length === 0) return [];
+
+    // 2. Obtener desde la BD
+    const verificados = await Convenio.findAll({
+        where: { id: {[Op.in]: ids} },
+        attributes: ['id', 'nombre']
+    });
+    
+    // 3. Obtener solamente los convenios existentes
+    const convenios = await Convenio.findAll({ 
+        where: { id: verificados },
+        attributes: ['id', 'nombre']
+    });
+
+    return convenios;
 }
 
 // =================================================================================================== //
@@ -74,3 +94,5 @@ exports.eliminarConvenio = async (id) => {
         throw new Error(`Error al eliminar el convenio: ${error.message}`);
     }
 };
+
+export default obtenerConveniosPorIDs;
