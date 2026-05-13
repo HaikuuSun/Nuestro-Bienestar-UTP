@@ -52,29 +52,6 @@ exports.obtenerPostPorID = async (id) => {
     }
 };
 
-// Obtener un post por su título
-exports.obtenerPostPorTitulo = async (titulo) => {
-    try {
-        // 1. Búsqueda filtrada por el título
-        const objetivo = await Post.findOne({
-                where: {titulo: titulo},
-                include: [{
-                    model: Categoria,
-                    attributes: ['id', 'nombre']
-                }] // Incluir la categoría asociada en la respuesta
-            });
-
-        // 2. Validar que existe
-        if (!objetivo) {
-            throw new Error('Post no encontrado.');
-        }
-
-        return objetivo;
-    } catch (error) {
-        throw new Error(`Error al obtener el post por título: ${error.message}`);
-    }
-};
-
 // Obtener todos los posts
 exports.obtenerPosts = async () => {
     try {
