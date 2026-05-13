@@ -1,7 +1,7 @@
 const Post = require('../models/post.model');
 const Categoria = require('../models/categoria.model');
-import verificarCategoriaExistente from './categoria.service';
-import obtenerConveniosPorIDs from './convenios.service';
+const { verificarCategoriaExistente } = require('./categoria.service');
+const { obtenerConveniosPorIDs } = require('./convenios.service');
 
 // =================================================================================================== //
 // Función de comprobación
@@ -103,7 +103,7 @@ exports.filtrarPosts = async (filtros = {}, opciones = {}) => {
 };
 
 // Actualizar un post
-exports.actualizarPost = async (id, datos) => {
+exports.actualizarPost = async (id, datos, ids_convenios = []) => {
     try {
         // 1. Obtener el post objetivo
         const objetivo = await verificarPostExistente(id);
@@ -120,7 +120,13 @@ exports.actualizarPost = async (id, datos) => {
             }
         );
 
-        // 3. Devolver actualizado
+        // 3. Asociar convenios si se proporcionan
+        if (Array.isArray(ids_convenios) && ids_convenios.length > 0) {
+            const convenios = await obtenerConveniosPorIDs(ids_convenios);
+            await objetivo.addConvenios(convenios);
+        }
+
+        // 4. Devolver actualizado
         const postActualizado = await objetivo.reload();
         return postActualizado;
     } catch (error) {
@@ -141,3 +147,5 @@ exports.eliminarPost = async (id) => {
         throw new Error(`Error al eliminar el post: ${error.message}`);
     }
 };
+
+export default verificarPostExistente;
