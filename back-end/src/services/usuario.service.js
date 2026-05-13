@@ -1,4 +1,4 @@
-const Usuario = requires('../models/usuario.model.js');
+const Usuario = require('../models/usuario.model.js');
 const bcrypt = require('bcryptjs');
 
 // =================================================================================================== //
@@ -136,3 +136,5 @@ exports.eliminarUsuario = async (id) => {
         throw new Error(`Error al eliminar el usuario: ${error.message}`)
     }
 };
+
+export default verificarUsuarioExistente;
