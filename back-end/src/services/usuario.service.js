@@ -107,8 +107,7 @@ exports.actualizarUsuario = async (id, datos) => {
                 nombre: datos.nombre,
                 correo: datos.correo,
                 celular: datos.celular,
-                contrasena: datos.contrasena,
-                rol_id: datos.rol_id
+                contrasena: datos.contrasena
             }, {
                 where: { id }
             }

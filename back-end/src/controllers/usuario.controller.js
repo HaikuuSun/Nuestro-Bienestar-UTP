@@ -74,8 +74,8 @@ exports.actualizarUsuario = async (req, res) => {
         // 1. Cargar el ID del usuario activo
         const id = req.usuario.id;
         // 2. Obtener los datos desde el cuerpo de la solicitud
-        const { nombre, correo, celular, contrasena, rol_id } = req.body;
-        const datos = [nombre, correo, celular, contrasena, rol_id]; // Empaquetar los datos
+        const { nombre, correo, celular, contrasena } = req.body;
+        const datos = [nombre, correo, celular, contrasena]; // Empaquetar los datos
         // 3. Actualizar el usuario
         const usuarioActualizado = await usuarioService.actualizarUsuario(id, datos);
         // 4. Respuesta exitosa
