@@ -18,18 +18,18 @@ async function obtenerConveniosPorIDs(ids = []) {
     if (!Array.isArray(ids) || ids.length === 0) return [];
 
     // 2. Obtener desde la BD
-    const verificados = await Convenio.findAll({
+    const convenios = await Convenio.findAll({
         where: { id: {[Op.in]: ids} },
         attributes: ['id', 'nombre']
     });
     
     // 3. Obtener solamente los convenios existentes
-    const convenios = await Convenio.findAll({ 
-        where: { id: verificados },
+    const verificados = await Convenio.findAll({ 
+        where: { id: convenios },
         attributes: ['id', 'nombre']
     });
 
-    return convenios;
+    return verificados;
 }
 
 // =================================================================================================== //
