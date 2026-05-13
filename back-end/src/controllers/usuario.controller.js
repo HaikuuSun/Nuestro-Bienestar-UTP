@@ -32,8 +32,7 @@ exports.obtenerUsuarioPorID = async (req, res) => {
         // 4. Responder con código 200 si se aprueban las validaciones
         res.status(200).json(usuario);
     } catch (error) {
-        const status = error.message.includes('no encontrado') ? 404 : 500;
-        res.status(status).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -53,7 +52,7 @@ exports.obtenerMiPerfil = async (req, res) => {
         // 4. Respuesta exitosa
         res.status(200).json(usuario);
     } catch (error) {
-        res.statys(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -91,7 +90,9 @@ exports.eliminarUsuario = async (req, res) => {
     try {
         // 1. Cargar el ID del usuario activo
         const id = req.usuario.id;
+        // 2. Eliminar
         const resultado = await usuarioService.eliminarUsuario(id);
+        // 3. Respuesta exitosa
         res.status(200).json(resultado);
     } catch (error) {
         res.status(500).json({ message: error.message });
