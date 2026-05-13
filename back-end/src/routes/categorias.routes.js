@@ -36,3 +36,5 @@ router.delete('/eliminar/:id',
     autorizarRol(ROLES.ADMIN),
     categoriaController.eliminarCategoria
 );
+
+module.exports = router;

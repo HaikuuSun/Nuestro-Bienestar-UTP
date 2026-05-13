@@ -41,3 +41,5 @@ router.delete('/eliminar/:id',
     autorizarRol(ROLES.ADMIN),
     postController.eliminarPost
 );
+
+module.exports = router;

@@ -36,3 +36,5 @@ router.delete('/eliminar/:id',
     autorizarRol(ROLES.ADMIN, ROLES.COORDINADOR),
     conveniosController.eliminarConvenio
 );
+
+module.exports = router;
