@@ -6,7 +6,7 @@ module.exports = {
     },
     COORDINADOR: {
         nombre: 'Coordinador',
-        descripcion: 'Puede leer usuarios, actualizar beneficios y convenios',
+        descripcion: 'Puede leer usuarios, actualizar beneficios y gestionar convenios',
         rutas: ['/usuarios', '/beneficios', '/convenios']
     },
     DOCENTE: {
