@@ -42,6 +42,7 @@ exports.crearPost = async (titulo, descripcion, fecha_validez, categoria_id, ids
     }
 };
 
+// =============================================================================
 // Obtener un post por su ID
 exports.obtenerPostPorID = async (id) => {
     try {
@@ -52,6 +53,7 @@ exports.obtenerPostPorID = async (id) => {
     }
 };
 
+// =============================================================================
 // Obtener todos los posts
 exports.obtenerPosts = async () => {
     try {
@@ -62,6 +64,7 @@ exports.obtenerPosts = async () => {
     }
 }
 
+// =============================================================================
 // Búsqueda filtrada
 exports.filtrarPosts = async (filtros = {}, opciones = {}) => {
     try {
@@ -79,6 +82,7 @@ exports.filtrarPosts = async (filtros = {}, opciones = {}) => {
     }
 };
 
+// =============================================================================
 // Actualizar un post
 exports.actualizarPost = async (id, datos, ids_convenios = []) => {
     try {
@@ -111,6 +115,7 @@ exports.actualizarPost = async (id, datos, ids_convenios = []) => {
     }
 };
 
+// =============================================================================
 // Eliminar post
 exports.eliminarPost = async (id) => {
     try {

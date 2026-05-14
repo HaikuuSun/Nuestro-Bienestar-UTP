@@ -37,6 +37,7 @@ exports.crearCategoria = async (nombre) => {
     }
 };
 
+// =============================================================================
 // Obtener categoría por ID
 exports.obtenerCategoriaPorID = async (id) => {
     try {
@@ -47,6 +48,7 @@ exports.obtenerCategoriaPorID = async (id) => {
     }
 };
 
+// =============================================================================
 // Obtener todas las categorías
 exports.obtenerCategorias = async () => {
     try {
@@ -57,6 +59,7 @@ exports.obtenerCategorias = async () => {
     }
 };
 
+// =============================================================================
 // Actualizar una categoría
 exports.actualizarCategoria = async (id, nombre) => {
     try {
@@ -78,6 +81,7 @@ exports.actualizarCategoria = async (id, nombre) => {
     }
 };
 
+// =============================================================================
 // Eliminar una categoría
 exports.eliminarCategoria = async (id) => {
     try {

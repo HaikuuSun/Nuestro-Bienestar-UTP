@@ -53,6 +53,7 @@ exports.crearUsuario = async (nombre, correo, celular, contrasena, rol_id) => {
     }
 };
 
+// =============================================================================
 // Obtener un usuario por su ID
 exports.obtenerUsuarioPorID = async (id) => {
     try {
@@ -65,6 +66,7 @@ exports.obtenerUsuarioPorID = async (id) => {
     }
 };
 
+// =============================================================================
 // Obtener usuarios por rol
 exports.obtenerUsuariosPorRol = async (rol_id) => {
     try {
@@ -80,6 +82,7 @@ exports.obtenerUsuariosPorRol = async (rol_id) => {
     }
 };
 
+// =============================================================================
 // Actualizar usuario
 exports.actualizarUsuario = async (id, datos) => {
     try {
@@ -122,6 +125,7 @@ exports.actualizarUsuario = async (id, datos) => {
     }
 };
 
+// =============================================================================
 // Eliminar usuario
 exports.eliminarUsuario = async (id) => {
     try {

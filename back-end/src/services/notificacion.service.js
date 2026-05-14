@@ -75,6 +75,7 @@ exports.generarNotificacionesPorCategoria = async (post_id, categoria_id) => {
     }
 };
 
+// =============================================================================
 // Obtener las notificaciones pendientes
 exports.obtenerNotificacionesPendientes = async (usuario_id, limite) => {
     // Si se proporciona un límite para los resultados, convertir a tipo entero
@@ -95,6 +96,7 @@ exports.obtenerNotificacionesPendientes = async (usuario_id, limite) => {
     });
 };
 
+// =============================================================================
 // Marcar como leída una notificación
 exports.marcarComoLeida = async (usuario_id, notificacion_id) => {
     try {
@@ -125,6 +127,7 @@ exports.marcarComoLeida = async (usuario_id, notificacion_id) => {
     }
 };
 
+// =============================================================================
 // Eliminar una notificación
 exports.eliminarNotificacion = async (usuario_id, notificacion_id) => {
     try {

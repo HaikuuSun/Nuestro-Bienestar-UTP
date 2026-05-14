@@ -43,6 +43,7 @@ exports.crearConvenio = async (nombre) => {
     }
 };
 
+// =============================================================================
 // Obtener convenio por ID
 exports.obtenerConvenioPorID = async (id) => {
     try {
@@ -54,6 +55,7 @@ exports.obtenerConvenioPorID = async (id) => {
     }
 };
 
+// =============================================================================
 // Obtener todos los convenios
 exports.obtenerConvenios = async () => {
     try {
@@ -64,6 +66,7 @@ exports.obtenerConvenios = async () => {
     }
 };
 
+// =============================================================================
 // Actualizar un convenio
 exports.actualizarConvenio = async (id, nombre) => {
     try {
@@ -81,6 +84,7 @@ exports.actualizarConvenio = async (id, nombre) => {
     }
 };
 
+// =============================================================================
 // Eliminar convenio
 exports.eliminarConvenio = async (id) => {
     try {
