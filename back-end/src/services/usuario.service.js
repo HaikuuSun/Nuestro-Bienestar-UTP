@@ -140,4 +140,4 @@ exports.eliminarUsuario = async (id) => {
     }
 };
 
-export default verificarUsuarioExistente;
+module.exports =  verificarUsuarioExistente;

@@ -96,4 +96,4 @@ exports.eliminarCategoria = async (id) => {
     }
 };
 
-export default verificarCategoriaExistente;
+module.exports = verificarCategoriaExistente;

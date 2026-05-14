@@ -99,4 +99,4 @@ exports.eliminarConvenio = async (id) => {
     }
 };
 
-export default obtenerConveniosPorIDs;
+module.exports = obtenerConveniosPorIDs;
