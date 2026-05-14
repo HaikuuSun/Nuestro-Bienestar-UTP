@@ -1,16 +1,23 @@
 const postService = require('../services/post.service');
+const notificacionService = require('../services/notificacion.service');
 
 // Crear un post de beneficio
 exports.crearPost = async (req, res) => {
     try {
         // 1. Extraer los datos del cuerpo de la solicitud
         const { titulo, descripcion, fecha_validez, categoria_id, ids_convenios } = req.body;
+        const id_usuario_creador = req.usuario.id;
         
         // 2. Llamar al servicio
         const nuevoPost = await postService.crearPost(titulo, descripcion, fecha_validez, categoria_id, ids_convenios);
+        // 3. Generar y emitir notificaciones
+        await notificacionService.generarNotificacionesPorCategoria(post.id, categoria_id);
 
-        // 3. Respuesta exitosa
-        res.status(201).json({ message: 'Post creado exitosamente', post: nuevoPost });
+        // 4. Respuesta exitosa
+        res.status(201).json({
+            success: true,
+            message: 'Post creado exitosamente',
+            post: nuevoPost });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
