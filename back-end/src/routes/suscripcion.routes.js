@@ -21,7 +21,7 @@ router.get('/mis-suscripciones',
     suscripcionController.obtenerMisSuscripciones
 );
 
-// [Opcional] Verificar si estoy suscrito
+// Verificar si estoy suscrito
 router.get('/categorias/:categoria_id/estado',
     autenticarJWT,
     suscripcionController.verificarEstadoSuscripcion
