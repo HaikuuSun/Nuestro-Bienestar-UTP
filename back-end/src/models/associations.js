@@ -39,7 +39,7 @@ Usuario.hasMany(Notificacion, { foreignKey: 'usuario_id', sourceKey: 'id' }); //
 Notificacion.belongsTo(Post, { foreignKey: 'post_id', targetKey: 'id' }); // 1 : 1
 Post.hasMany(Notificacion, { foreignKey: 'post_id', sourceKey: 'id' }); // 1 : N
 
-// 5. Suscripciones: Usuarios ↔ Categorías (N:N con payload)
+// 5. Suscripciones: Usuarios y Categorías (N : N)
 Usuario.belongsToMany(Categoria, {
     through: SuscripcionCategoria,
     foreignKey: 'usuario_id',
