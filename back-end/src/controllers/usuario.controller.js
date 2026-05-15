@@ -1,100 +1,173 @@
 const usuarioService = require('../services/usuario.service');
 
-// Registro de usuarios
-exports.crearUsuario = async (req, res) => {
+/**
+ * Crear un nuevo usuario (solo admins)
+ * POST /api/v1/usuarios/registro
+ */
+exports.crearUsuario = async (req, res, next) => {
     try {
-        // 1. Extraer los datos del cuerpo de la solicitud
+        // Validar que existan los campos requeridos
         const { nombre, correo, celular, contrasena, rol_id } = req.body;
+        
+        if (!nombre || !correo || !contrasena) {
+            return res.status(400).json({
+                success: false,
+                message: 'Los campos nombre, correo y contraseña son requeridos'
+            });
+        }
 
-        // 2. Llamar al servicio
         const nuevoUsuario = await usuarioService.crearUsuario(nombre, correo, celular, contrasena, rol_id);
 
-        // 3. Responder con código de éxito (201)
-        res.status(201).json({ message: 'Usuario registrado exitosamente', usuario: nuevoUsuario });
+        res.status(201).json({
+            success: true,
+            message: 'Usuario registrado exitosamente',
+            data: nuevoUsuario
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// Obtener un usuario
-exports.obtenerUsuarioPorID = async (req, res) => {
+/**
+ * Obtener un usuario por ID
+ * GET /api/v1/usuarios/:id
+ */
+exports.obtenerUsuarioPorID = async (req, res, next) => {
     try {
-        // 1. Obtención de datos básicos
-        const { id } = req.params; // ID desde la URL
-        // 2. Llamar al servicio
+        const { id } = req.params;
+        
+        // Validar que el ID sea válido
+        if (!id || isNaN(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de usuario inválido'
+            });
+        }
+
         const usuario = await usuarioService.obtenerUsuarioPorID(id);
         
-        // 3. Responder con código 404 si no existe el usuario
         if (!usuario) {
-            return res.status(404).json({ message: 'Usuario no encontrado.' });
+            return res.status(404).json({
+                success: false,
+                message: 'Usuario no encontrado'
+            });
         }
 
-        // 4. Responder con código 200 si se aprueban las validaciones
-        res.status(200).json(usuario);
+        res.status(200).json({
+            success: true,
+            data: usuario
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// Acceder al perfil (usuario autenticado)
-exports.obtenerMiPerfil = async (req, res) => {
+/**
+ * Obtener perfil del usuario autenticado
+ * GET /api/v1/usuarios/mi-perfil
+ */
+exports.obtenerMiPerfil = async (req, res, next) => {
     try {
-        // 1. Obtener el ID del usuario activo
         const idUsuario = req.usuario.id;
-        // 2. Obtener el usuario con este ID
         const usuario = await usuarioService.obtenerUsuarioPorID(idUsuario);
 
-        // 3. Responder con código 404
         if (!usuario) {
-            return res.status(404).json({ message: 'Usuario no encontrado.' });
+            return res.status(404).json({
+                success: false,
+                message: 'Usuario no encontrado'
+            });
         }
 
-        // 4. Respuesta exitosa
-        res.status(200).json(usuario);
+        res.status(200).json({
+            success: true,
+            data: usuario
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// Obtener usuarios por rol
-exports.obtenerUsuariosPorRol = async (req, res) => {
+/**
+ * Obtener usuarios filtrados por rol
+ * GET /api/v1/usuarios/filtro-roles?rol_id=X
+ */
+exports.obtenerUsuariosPorRol = async (req, res, next) => {
     try {
-        // Obtener el ID del rol desde la URL
-        const { rol_id } = req.params;
+        const { rol_id } = req.query;
+        
+        if (!rol_id || isNaN(rol_id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'El parámetro rol_id es requerido y debe ser un número'
+            });
+        }
+
         const usuarios = await usuarioService.obtenerUsuariosPorRol(rol_id);
-        res.status(200).json(usuarios);
+        
+        res.status(200).json({
+            success: true,
+            data: usuarios
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// Actualizar usuario
-exports.actualizarUsuario = async (req, res) => {
+/**
+ * Actualizar datos del usuario autenticado
+ * PUT /api/v1/usuarios/actualizar/:id
+ */
+exports.actualizarUsuario = async (req, res, next) => {
     try {
-        // 1. Cargar el ID del usuario activo
-        const id = req.usuario.id;
-        // 2. Obtener los datos desde el cuerpo de la solicitud
+        const usuarioId = req.usuario.id;
+        const paramId = req.params.id;
+        
+        // Verificar que el usuario solo pueda actualizar su propio perfil (excepto si es admin)
+        if (usuarioId !== parseInt(paramId) && req.usuario.rol !== 'ADMIN') {
+            return res.status(403).json({
+                success: false,
+                message: 'No tienes permiso para actualizar este usuario'
+            });
+        }
+
         const { nombre, correo, celular, contrasena } = req.body;
-        const datos = [nombre, correo, celular, contrasena]; // Empaquetar los datos
-        // 3. Actualizar el usuario
-        const usuarioActualizado = await usuarioService.actualizarUsuario(id, datos);
-        // 4. Respuesta exitosa
-        res.status(200).json(usuarioActualizado);
+        const datos = [nombre, correo, celular, contrasena];
+
+        const usuarioActualizado = await usuarioService.actualizarUsuario(paramId, datos);
+
+        res.status(200).json({
+            success: true,
+            message: 'Usuario actualizado exitosamente',
+            data: usuarioActualizado
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// Eliminar usuario
-exports.eliminarUsuario = async (req, res) => {
+/**
+ * Eliminar un usuario (solo admins)
+ * DELETE /api/v1/usuarios/eliminar/:id
+ */
+exports.eliminarUsuario = async (req, res, next) => {
     try {
-        // 1. Cargar el ID del usuario activo
-        const id = req.usuario.id;
-        // 2. Eliminar
+        const { id } = req.params;
+        
+        if (!id || isNaN(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de usuario inválido'
+            });
+        }
+
         const resultado = await usuarioService.eliminarUsuario(id);
-        // 3. Respuesta exitosa
-        res.status(200).json(resultado);
+
+        res.status(200).json({
+            success: true,
+            message: 'Usuario eliminado exitosamente',
+            data: resultado
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };

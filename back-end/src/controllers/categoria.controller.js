@@ -1,75 +1,159 @@
 const categoriaService = require('../services/categoria.service');
 
-// Registrar categoría
-exports.crearCategoria = async (req, res) => {
+/**
+ * Crear una nueva categoría (solo admins)
+ * POST /api/v1/categorias/crear
+ */
+exports.crearCategoria = async (req, res, next) => {
     try {
-        // 1. Extraer el dato del cuerpo de la solicitud
         const { nombre } = req.body;
 
-        // 2. Llamar al servicio
-        const nuevaCategoria = await categoriaService.crearCategoria(nombre);
-
-        // 3. Respuesta exitosa
-        res.status(201).json({ message: 'Categoría creada exitosamente', categoria: nuevaCategoria });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// Obtener categoría por ID
-exports.obtenerCategoriaPorID = async (req, res) => {
-    try {
-        // 1. Obtener el ID desde la URL
-        const { id } = req.params;
-        // 2. Llamar al servicio
-        const categoria = await categoriaService.obtenerCategoriaPorID(id);
-
-        // Respuesta de error
-        if (!categoria) {
-            return res.status(404).json({ message: 'Categoría no encontrada.' });
+        // Validar que el nombre sea proporcionado
+        if (!nombre || nombre.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: 'El campo nombre es requerido'
+            });
         }
 
-        // Respuesta exitosa
-        res.status(200).json(categoria);
+        const nuevaCategoria = await categoriaService.crearCategoria(nombre);
+
+        res.status(201).json({
+            success: true,
+            message: 'Categoría creada exitosamente',
+            data: nuevaCategoria
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-// Obtener categorías
-exports.obtenerCategorias = async (req, res) => {
-    try {
-        const categorias = await categoriaService.obtenerCategorias();
-        res.status(200).json(categorias);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// Actualizar categoría
-exports.actualizarCategoria = async (req, res) => {
-    try {
-        // 1. Obtener datos
-        const { id } = req.params; // ID desde la URL
-        const { nombre } = req.body; // Nombre desde el cuerpo de la solicitud
-
-        // 2. Actualizar
-        const categoriaActualizada = await categoriaService.actualizarCategoria(id, nombre);
-
-        // 3. Respuesta exitosa
-        res.status(200).json(categoriaActualizada);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// Eliminar categoría
-exports.eliminarCategoria = async (req, res) => {
+/**
+ * Obtener categoría por ID
+ * GET /api/v1/categorias/:id
+ */
+exports.obtenerCategoriaPorID = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const resultado = await categoriaService.eliminarCategoria(id);
-        res.status(200).json(resultado);
+
+        // Validar que el ID sea válido
+        if (!id || isNaN(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de categoría inválido'
+            });
+        }
+
+        const categoria = await categoriaService.obtenerCategoriaPorID(id);
+
+        if (!categoria) {
+            return res.status(404).json({
+                success: false,
+                message: 'Categoría no encontrada'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: categoria
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
+    }
+};
+
+/**
+ * Obtener todas las categorías
+ * GET /api/v1/categorias/todas
+ */
+exports.obtenerCategorias = async (req, res, next) => {
+    try {
+        const categorias = await categoriaService.obtenerCategorias();
+
+        res.status(200).json({
+            success: true,
+            data: categorias,
+            count: categorias.length
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Actualizar categoría (solo admins)
+ * PUT /api/v1/categorias/actualizar/:id
+ */
+exports.actualizarCategoria = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { nombre } = req.body;
+
+        // Validar inputs
+        if (!id || isNaN(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de categoría inválido'
+            });
+        }
+
+        if (!nombre || nombre.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: 'El campo nombre es requerido'
+            });
+        }
+
+        const categoriaActualizada = await categoriaService.actualizarCategoria(id, nombre);
+
+        if (!categoriaActualizada) {
+            return res.status(404).json({
+                success: false,
+                message: 'Categoría no encontrada'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Categoría actualizada exitosamente',
+            data: categoriaActualizada
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Eliminar categoría (solo admins)
+ * DELETE /api/v1/categorias/eliminar/:id
+ */
+exports.eliminarCategoria = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        // Validar que el ID sea válido
+        if (!id || isNaN(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de categoría inválido'
+            });
+        }
+
+        const resultado = await categoriaService.eliminarCategoria(id);
+
+        if (!resultado) {
+            return res.status(404).json({
+                success: false,
+                message: 'Categoría no encontrada'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Categoría eliminada exitosamente',
+            data: resultado
+        });
+    } catch (error) {
+        next(error);
     }
 };

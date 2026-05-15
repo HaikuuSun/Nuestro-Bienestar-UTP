@@ -1,17 +1,22 @@
 {
   "name": "back-end",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend API para Nuestro Bienestar - Plataforma de Bienestar y Convenios",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gen-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["API", "REST", "Express", "MySQL", "Sequelize"],
+  "author": "Nuestro Bienestar",
+  "license": "MIT",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",

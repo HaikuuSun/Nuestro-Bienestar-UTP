@@ -4,6 +4,13 @@ const categoriaController = require('../controllers/categoria.controller');
 const { autenticarJWT, autorizarRol } = require('../middlewares/auth.middleware');
 const ROLES = require('../config/roles');
 
+// Cualquier usuario puede obtener todas las categorías
+// (Debe estar ANTES de /:id para evitar confusión)
+router.get('/todas',
+    autenticarJWT,
+    categoriaController.obtenerCategorias
+);
+
 // Admins: Registran categorías
 router.post('/crear',
     autenticarJWT,
@@ -11,16 +18,10 @@ router.post('/crear',
     categoriaController.crearCategoria
 );
 
-// Cualquier usuario puede obtener las categorías
-// Por ID
+// Cualquier usuario puede obtener una categoría por ID
 router.get('/:id',
     autenticarJWT,
     categoriaController.obtenerCategoriaPorID
-);
-// Todas
-router.get('/todas',
-    autenticarJWT,
-    categoriaController.obtenerCategorias
 );
 
 // Admins: Actualizan categorías
