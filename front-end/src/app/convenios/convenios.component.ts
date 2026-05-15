@@ -3,29 +3,29 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-convenios',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './convenios.component.html',
+  styleUrls: ['./convenios.component.css']
 })
-export class HomeComponent implements OnInit {
+export class ConveniosComponent implements OnInit {
+  convenios: any[] = [];
   loading = false;
   errorMessage = '';
-  categorias: any[] = [];
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.loadCategorias();
+    this.loadConvenios();
   }
 
-  loadCategorias() {
+  loadConvenios() {
     this.loading = true;
     this.errorMessage = '';
-    this.apiService.getCategories().subscribe({
+    this.apiService.getConvenios().subscribe({
       next: (response) => {
-        this.categorias = response || [];
+        this.convenios = response || [];
         this.loading = false;
       },
       error: (error) => {

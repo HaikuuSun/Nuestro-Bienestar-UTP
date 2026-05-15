@@ -1,10 +1,29 @@
-<h1>Bienvenido a Nuestro Bienestar UTP</h1>
-<p>Como administrativo de la Universidad Tecnológica de Pereira, tienes acceso a los siguientes beneficios:</p>
-<ul>
-  <li>Salud: Acceso a servicios médicos y odontológicos.</li>
-  <li>Educación: Descuentos en programas de formación continua.</li>
-  <li>Deportes: Uso de instalaciones deportivas universitarias.</li>
-  <li>Transporte: Subsidios para transporte público.</li>
-  <li>Vacaciones: 30 días de vacaciones al año.</li>
-</ul>
-<button (click)="logout()">Cerrar Sesión</button>
+<section class="page-header">
+  <div>
+    <h1>Bienvenido a Nuestro Bienestar UTP</h1>
+    <p>Administra las categorías de servicios y descubre convenios de la universidad.</p>
+  </div>
+</section>
+
+<section class="panel stats-panel">
+  <div class="stat-card">
+    <span class="stat-label">Categorías</span>
+    <strong>{{ categorias.length }}</strong>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">Estado</span>
+    <strong>{{ loading ? 'Cargando' : 'Listo' }}</strong>
+  </div>
+</section>
+
+<section class="panel list-panel">
+  <h2>Categorías recientes</h2>
+  <div *ngIf="loading" class="status">Cargando categorías...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <ul *ngIf="!loading && !errorMessage && categorias.length > 0">
+    <li *ngFor="let category of categorias">{{ category.nombre }}</li>
+  </ul>
+  <div *ngIf="!loading && !errorMessage && categorias.length === 0" class="status">
+    No se encontraron categorías.
+  </div>
+</section> 

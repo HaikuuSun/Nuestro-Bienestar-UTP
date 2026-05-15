@@ -1,0 +1,20 @@
+<section class="page-header">
+  <h1>Convenios</h1>
+  <p>Revisa los convenios disponibles para la comunidad universitaria.</p>
+</section>
+
+<section class="panel list-panel">
+  <div *ngIf="loading" class="status">Cargando convenios...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <ul *ngIf="!loading && !errorMessage && convenios.length > 0">
+    <li *ngFor="let convenio of convenios">
+      <div>
+        <h3>{{ convenio.titulo || convenio.nombre || 'Convenio' }}</h3>
+        <p>{{ convenio.descripcion || convenio.resumen || 'Descripción no disponible' }}</p>
+      </div>
+    </li>
+  </ul>
+  <div *ngIf="!loading && !errorMessage && convenios.length === 0" class="status">
+    No se encontraron convenios.
+  </div>
+</section>

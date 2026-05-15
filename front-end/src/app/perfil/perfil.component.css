@@ -1,0 +1,21 @@
+.page-header {
+  margin-bottom: 1rem;
+}
+
+.profile-panel {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+}
+
+.profile-panel p {
+  margin: 0.85rem 0;
+  color: #2d3748;
+}
+
+.profile-panel strong {
+  display: inline-block;
+  width: 8rem;
+}

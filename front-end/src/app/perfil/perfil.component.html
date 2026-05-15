@@ -1,0 +1,15 @@
+<section class="page-header">
+  <h1>Perfil</h1>
+  <p>Revisa tus datos de usuario y tu rol actual.</p>
+</section>
+
+<section class="panel profile-panel">
+  <div *ngIf="user; else noUser">
+    <p><strong>Nombre:</strong> {{ user.nombre || 'No disponible' }}</p>
+    <p><strong>Correo:</strong> {{ user.correo || 'No disponible' }}</p>
+    <p><strong>Rol:</strong> {{ user.rol || 'Invitado' }}</p>
+  </div>
+  <ng-template #noUser>
+    <p>No se encontró información del perfil. Inicia sesión nuevamente.</p>
+  </ng-template>
+</section>

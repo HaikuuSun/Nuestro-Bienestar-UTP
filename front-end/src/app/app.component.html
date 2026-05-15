@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<header class="navbar">
+  <div class="brand">Nuestro Bienestar</div>
+  <nav class="nav-links">
+    <a routerLink="/home" routerLinkActive="active">Inicio</a>
+    <a routerLink="/categorias" routerLinkActive="active">Categorías</a>
+    <a routerLink="/convenios" routerLinkActive="active">Convenios</a>
+    <a routerLink="/perfil" routerLinkActive="active">Perfil</a>
+    <a routerLink="/notificaciones" routerLinkActive="active">Notificaciones</a>
+    <a routerLink="/about" routerLinkActive="active">Acerca</a>
+  </nav>
+  <button class="logout" *ngIf="isAuthenticated()" (click)="logout()">Cerrar sesión</button>
+</header>
+
+<main class="content">
+  <router-outlet></router-outlet>
+</main>

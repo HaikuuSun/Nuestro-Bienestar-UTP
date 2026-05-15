@@ -1,0 +1,21 @@
+.page-header {
+  margin-bottom: 1rem;
+}
+
+.about-panel {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+}
+
+.about-panel ul {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.about-panel li {
+  margin-bottom: 0.75rem;
+  color: #4a5568;
+}

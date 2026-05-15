@@ -1,0 +1,34 @@
+.page-header {
+  margin-bottom: 1rem;
+}
+
+.notifications-panel {
+  background: #ffffff;
+  padding: 1.4rem;
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.05);
+}
+
+.notifications-panel ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.notifications-panel li {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.notifications-panel li:last-child {
+  border-bottom: none;
+}
+
+.notifications-panel h3 {
+  margin: 0 0 0.45rem;
+}
+
+.notifications-panel p {
+  margin: 0;
+  color: #4a5568;
+}

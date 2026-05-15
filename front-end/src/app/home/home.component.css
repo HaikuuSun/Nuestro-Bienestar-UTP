@@ -1,0 +1,72 @@
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(1.9rem, 4vw, 2.4rem);
+}
+
+.page-header p {
+  margin: 0;
+  max-width: 720px;
+  color: #4a5568;
+}
+
+.stats-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.04);
+}
+
+.stat-label {
+  display: block;
+  color: #718096;
+  margin-bottom: 0.5rem;
+}
+
+.list-panel {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.05);
+}
+
+.list-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+}
+
+.list-panel li {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.status {
+  color: #4a5568;
+  margin-top: 0.75rem;
+}
+
+.error {
+  color: #c53030;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 720px) {
+  .stats-panel {
+    grid-template-columns: 1fr;
+  }
+}

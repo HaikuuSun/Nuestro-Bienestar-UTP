@@ -1,0 +1,13 @@
+<section class="page-header">
+  <h1>Notificaciones</h1>
+  <p>Mensajes recientes y avisos relevantes para tu bienestar.</p>
+</section>
+
+<section class="panel notifications-panel">
+  <ul>
+    <li *ngFor="let notification of notifications">
+      <h3>{{ notification.title }}</h3>
+      <p>{{ notification.message }}</p>
+    </li>
+  </ul>
+</section>

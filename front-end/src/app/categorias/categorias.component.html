@@ -1,0 +1,39 @@
+<section class="page-header">
+  <h1>Categorías</h1>
+  <p>Gestiona las categorías disponibles y crea nuevas opciones de bienestar.</p>
+</section>
+
+<section class="panel form-panel">
+  <h2>Crear nueva categoría</h2>
+  <form #categoryForm="ngForm" (ngSubmit)="crearCategoria(categoryForm)">
+    <label for="nombre">Nombre de la categoría</label>
+    <input
+      type="text"
+      id="nombre"
+      name="nombre"
+      [(ngModel)]="nombre"
+      required
+      minlength="3"
+      placeholder="Ej. Salud mental"
+    />
+    <div class="validation" *ngIf="categoryForm.submitted && categoryForm.controls['nombre']?.invalid">
+      <span *ngIf="categoryForm.controls['nombre']?.errors?.['required']">El nombre es obligatorio.</span>
+      <span *ngIf="categoryForm.controls['nombre']?.errors?.['minlength']">Mínimo 3 caracteres.</span>
+    </div>
+    <button type="submit" [disabled]="saving">Guardar categoría</button>
+  </form>
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</section>
+
+<section class="panel list-panel">
+  <h2>Lista de categorías</h2>
+  <div *ngIf="loading" class="status">Cargando categorías...</div>
+  <div *ngIf="!loading && categorias.length === 0" class="status">No hay categorías registradas.</div>
+  <ul *ngIf="!loading && categorias.length > 0">
+    <li *ngFor="let category of categorias">
+      <span>{{ category.nombre }}</span>
+      <button class="danger" (click)="eliminarCategoria(category.id)">Eliminar</button>
+    </li>
+  </ul>
+</section>
