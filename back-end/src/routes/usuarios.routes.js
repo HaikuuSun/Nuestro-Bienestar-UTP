@@ -6,14 +6,15 @@ const ROLES = require('../config/roles');
 
 // Solo los administradores pueden registrar usuarios
 router.post('/registro',
-    autorizarRol(ROLES.ADMIN),
+    autenticarJWT,
+    autorizarRol(ROLES.ADMIN.nombre),
     usuarioController.crearUsuario
 );
 
 // Administradores y coordinadores pueden obtener cualquier usuario por su ID
 router.get('/:id',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN, ROLES.COORDINADOR),
+    autorizarRol(ROLES.ADMIN.nombre, ROLES.COORDINADOR.nombre),
     usuarioController.obtenerUsuarioPorID
 );
 
@@ -26,7 +27,7 @@ router.get('/mi-perfil',
 // Administradores y coordinadores pueden obtener usuarios por roles
 router.get('/filtro-roles',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN, ROLES.COORDINADOR),
+    autorizarRol(ROLES.ADMIN.nombre, ROLES.COORDINADOR.nombre),
     usuarioController.obtenerUsuariosPorRol
 );
 
@@ -39,7 +40,7 @@ router.put('/actualizar/:id',
 // Solo los administradores pueden eliminar usuarios del sistema
 router.delete('/eliminar/:id',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN),
+    autorizarRol(ROLES.ADMIN.nombre),
     usuarioController.eliminarUsuario
 );
 

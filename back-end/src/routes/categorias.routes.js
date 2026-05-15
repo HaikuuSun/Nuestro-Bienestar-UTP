@@ -7,7 +7,7 @@ const ROLES = require('../config/roles');
 // Admins: Registran categorías
 router.post('/crear',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN),
+    autorizarRol(ROLES.ADMIN.nombre),
     categoriaController.crearCategoria
 );
 
@@ -26,14 +26,14 @@ router.get('/todas',
 // Admins: Actualizan categorías
 router.put('/actualizar/:id',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN),
+    autorizarRol(ROLES.ADMIN.nombre),
     categoriaController.actualizarCategoria
 );
 
 // Admins: Eliminan categorías
 router.delete('/eliminar/:id',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN),
+    autorizarRol(ROLES.ADMIN.nombre),
     categoriaController.eliminarCategoria
 );
 

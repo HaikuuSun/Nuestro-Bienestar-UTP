@@ -7,7 +7,7 @@ const ROLES = require('../config/roles');
 // Admins y coordinadores registran convenios
 router.post('/crear',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN, ROLES.COORDINADOR),
+    autorizarRol(ROLES.ADMIN.nombre, ROLES.COORDINADOR.nombre),
     conveniosController.crearConvenio
 );
 
@@ -26,14 +26,14 @@ router.get('/todos',
 // Admins y coordinadores actualizan convenios
 router.put('/actualizar/:id',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN, ROLES.COORDINADOR),
+    autorizarRol(ROLES.ADMIN.nombre, ROLES.COORDINADOR.nombre),
     conveniosController.actualizarConvenio
 );
 
 // Admins y coordinadores eliminan convenios
 router.delete('/eliminar/:id',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN, ROLES.COORDINADOR),
+    autorizarRol(ROLES.ADMIN.nombre, ROLES.COORDINADOR.nombre),
     conveniosController.eliminarConvenio
 );
 
