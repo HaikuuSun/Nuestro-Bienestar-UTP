@@ -3,19 +3,25 @@
 }
 
 .profile-panel {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 18px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 1.6rem;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.08);
 }
 
 .profile-panel p {
-  margin: 0.85rem 0;
-  color: #2d3748;
+  margin: 1rem 0;
+  color: #475569;
+  font-size: 1rem;
 }
 
 .profile-panel strong {
   display: inline-block;
-  width: 8rem;
+  width: 5.5rem;
+  color: #0f172a;
+}
+
+.profile-panel p:last-child {
+  margin-bottom: 0;
 }

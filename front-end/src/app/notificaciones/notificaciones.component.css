@@ -3,10 +3,11 @@
 }
 
 .notifications-panel {
-  background: #ffffff;
-  padding: 1.4rem;
-  border-radius: 18px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 1.6rem;
+  border-radius: 22px;
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.18);
 }
 
 .notifications-panel ul {
@@ -16,8 +17,8 @@
 }
 
 .notifications-panel li {
-  padding: 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
 }
 
 .notifications-panel li:last-child {
@@ -26,9 +27,10 @@
 
 .notifications-panel h3 {
   margin: 0 0 0.45rem;
+  color: #0f172a;
 }
 
 .notifications-panel p {
   margin: 0;
-  color: #4a5568;
+  color: #475569;
 }
