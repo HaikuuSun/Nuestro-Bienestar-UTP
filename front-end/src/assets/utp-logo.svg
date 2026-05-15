@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="UTP Logo">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d3748" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="36" fill="#ffffff" />
+  <circle cx="128" cy="104" r="68" fill="url(#grad)" opacity="0.95" />
+  <path d="M88 164h80v20H88z" fill="#0f172a" opacity="0.8" />
+  <text x="50%" y="48%" text-anchor="middle" fill="#ffffff" font-family="Times New Roman, serif" font-size="54" font-weight="700" dy="0.35em">UTP</text>
+  <text x="50%" y="72%" text-anchor="middle" fill="#0f172a" font-family="Times New Roman, serif" font-size="18" font-weight="600" dy="0.35em">Tecnológica</text>
+</svg>

@@ -23,9 +23,35 @@ body {
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 0.4rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.brand-title {
   font-weight: 800;
   font-size: 1.3rem;
   letter-spacing: 0.02em;
+}
+
+.brand-subtitle {
+  font-size: 0.85rem;
+  color: #cbd5e1;
 }
 
 .nav-links {

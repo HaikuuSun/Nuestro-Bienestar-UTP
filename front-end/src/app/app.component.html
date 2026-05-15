@@ -1,5 +1,12 @@
 <header class="navbar">
-  <div class="brand">Nuestro Bienestar</div>
+  <div class="brand">
+    <img src="assets/utp-logo.svg" alt="UTP Logo" class="logo" />
+    <div class="brand-text">
+      <span class="brand-title">Nuestro Bienestar</span>
+      <span class="brand-subtitle">UTP - Plataforma administrativa</span>
+    </div>
+  </div>
+
   <nav class="nav-links">
     <a routerLink="/home" routerLinkActive="active">Inicio</a>
     <a routerLink="/categorias" routerLinkActive="active">Categorías</a>
@@ -8,6 +15,7 @@
     <a routerLink="/notificaciones" routerLinkActive="active">Notificaciones</a>
     <a routerLink="/about" routerLinkActive="active">Acerca</a>
   </nav>
+
   <button class="logout" *ngIf="isAuthenticated()" (click)="logout()">Cerrar sesión</button>
 </header>
 
