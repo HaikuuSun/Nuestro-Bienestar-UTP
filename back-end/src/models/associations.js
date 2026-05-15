@@ -10,8 +10,8 @@ const SuscripcionCategoria = require('./suscripcion_categoria.model');
 // ============== MAPEO DE ENTIDADES ============== //
 
 // 1. Usuarios y Roles
-Usuario.belongsTo(Rol, { foreignKey: 'rol_id', targetKey: 'id' }); // 1 : 1
-Rol.hasMany(Usuario, { foreignKey: 'rol_id', sourceKey: 'id' }); // 1 : N
+Usuario.belongsTo(Rol, { foreignKey: 'rol_id', targetKey: 'id', as: 'rol' }); // 1 : 1
+Rol.hasMany(Usuario, { foreignKey: 'rol_id', sourceKey: 'id', as: 'usuarios' }); // 1 : N
 
 // 2. Posts y Categorías
 Post.belongsTo(Categoria, { foreignKey: 'categoria_id', targetKey: 'id' }); // 1 : 1
