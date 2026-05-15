@@ -130,4 +130,4 @@ exports.eliminarPost = async (id) => {
     }
 };
 
-module.exports = verificarPostExistente;
+exports.verificarPostExistente = verificarPostExistente;

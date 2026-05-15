@@ -99,4 +99,4 @@ exports.eliminarConvenio = async (id) => {
     }
 };
 
-module.exports = obtenerConveniosPorIDs;
+exports.obtenerConveniosPorIDs = obtenerConveniosPorIDs;

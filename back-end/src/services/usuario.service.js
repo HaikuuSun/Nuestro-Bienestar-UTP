@@ -46,7 +46,8 @@ exports.crearUsuario = async (nombre, correo, celular, contrasena, rol_id) => {
         });
 
         // 4. Excluir contraseña de la respuesta
-        const { contrasena, ...usuarioSinContrasena } = nuevoUsuario.toJSON();
+        const usuarioSinContrasena = nuevoUsuario.toJSON();
+        delete usuarioSinContrasena.contrasena;
         return usuarioSinContrasena;
     } catch (error) {
         throw new Error(`Error al registrar el usuario: ${error.message}`);
@@ -140,4 +141,4 @@ exports.eliminarUsuario = async (id) => {
     }
 };
 
-module.exports =  verificarUsuarioExistente;
+exports.verificarUsuarioExistente = verificarUsuarioExistente;
