@@ -5,7 +5,7 @@ require('./src/models/associations');
 
 dotenv.config();
 
-const PORT = process.env.PORT | 3000;
+const PORT = process.env.API_PORT;
 
 // Verificar la conexión a la base de datos
 sequelize.authenticate()
