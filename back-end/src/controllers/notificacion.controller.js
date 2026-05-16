@@ -1,5 +1,5 @@
 const notificacionService = require('../services/notificacion.service');
-const { io } = require('../config/socket.config'); // Instancia de socket.io
+const { getIO } = require('../config/socket.config'); // Instancia de socket.io
 
 // Generar y enviar una notificación
 exports.crearNotificacion = async (req, res) => {
@@ -11,6 +11,7 @@ exports.crearNotificacion = async (req, res) => {
         const notificacion = await notificacionService.generarNotificacion(post_id, usuario_id, tipo);
 
         // 3. Emitir en tiempo real al usuario específico
+        const io = getIO();
         io.to(`usuario_${usuario_id}`).emit('nueva_notificacion', notificacion);
 
         // 4. Respuesta exitosa

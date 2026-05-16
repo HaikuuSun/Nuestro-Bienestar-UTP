@@ -3,11 +3,12 @@ const socketio = require('socket.io');
 let io;
 
 exports.initializeSocket = (server) => {
+    const origins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['http://localhost:4200'];
+
     io = socketio(server, {
         cors: {
-            // Permitir conexiones desde el frontend (Angular)
-            origin: "http://localhost:4200",
-            methods: ["GET", "POST"],
+            origin: origins,
+            methods: ['GET', 'POST'],
             credentials: true
         }
     });

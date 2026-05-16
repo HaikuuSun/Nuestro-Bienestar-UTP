@@ -1,8 +1,19 @@
 const jwt = require('jsonwebtoken'); // Autenticación (Generar tokens)
 const bcrypt = require('bcryptjs');
-const { JWT_SECRET } = require('../config/dotenv'); // Clave JWT
+const {
+    JWT_SECRET,
+    JWT_SECRET_ACCESS,
+    JWT_SECRET_REFRESH,
+    JWT_EXPIRES_IN,
+    JWT_REFRESH_EXPIRES_IN
+} = require('../config/dotenv'); // Claves y expiraciones JWT
 const Usuario = require('../models/usuario.model');
 const Rol = require('../models/rol.model');
+
+const accessSecret = JWT_SECRET_ACCESS || JWT_SECRET;
+const refreshSecret = JWT_SECRET_REFRESH || JWT_SECRET;
+const accessExpiresIn = JWT_EXPIRES_IN || '15m';
+const refreshExpiresIn = JWT_REFRESH_EXPIRES_IN || '7d';
 
 // Servicio de autenticación
 exports.loginUsuario = async (correo, contrasena) => {
@@ -27,7 +38,7 @@ exports.loginUsuario = async (correo, contrasena) => {
             throw new Error('Contraseña incorrecta.');
         }
 
-        // 3. Generar el token JWT
+        // 3. Generar tokens JWT
         const payload = {
             id: usuario.id,
             correo: usuario.correo,
@@ -35,16 +46,13 @@ exports.loginUsuario = async (correo, contrasena) => {
             iat: Math.floor(Date.now() / 1000)
         };
 
-        // Firmar el token con la clave JWT y definir un tiempo de expiración
-        const token = jwt.sign(
-            payload,
-            JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
-        );
+        const accessToken = jwt.sign(payload, accessSecret, { expiresIn: accessExpiresIn });
+        const refreshToken = jwt.sign(payload, refreshSecret, { expiresIn: refreshExpiresIn });
 
-        // 4. Retornar el token
+        // 4. Retornar tokens y usuario
         return {
-            token,
+            token: accessToken,
+            refreshToken,
             usuario: {
                 id: usuario.id,
                 nombre: usuario.nombre,
@@ -57,15 +65,39 @@ exports.loginUsuario = async (correo, contrasena) => {
     }
 };
 
-// Para decodificar y verificar el token
+exports.generarAccessToken = (payload) => {
+    return jwt.sign(payload, accessSecret, { expiresIn: accessExpiresIn });
+};
+
 exports.verificarToken = (token) => {
     try {
-        const decodificado = jwt.verify(token, JWT_SECRET);
-        return decodificado;
+        return jwt.verify(token, accessSecret);
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
             throw new Error('Token de autenticación expirado.');
         }
         throw new Error('Token de autenticación inválido.');
     }
+};
+
+exports.verificarRefreshToken = (refreshToken) => {
+    try {
+        return jwt.verify(refreshToken, refreshSecret);
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            throw new Error('Refresh token expirado.');
+        }
+        throw new Error('Refresh token inválido.');
+    }
+};
+
+exports.refrescarToken = (refreshToken) => {
+    const decodificado = exports.verificarRefreshToken(refreshToken);
+    const payload = {
+        id: decodificado.id,
+        correo: decodificado.correo,
+        rol: decodificado.rol,
+        iat: Math.floor(Date.now() / 1000)
+    };
+    return exports.generarAccessToken(payload);
 };
