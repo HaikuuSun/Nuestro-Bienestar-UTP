@@ -32,7 +32,34 @@ export class AuthService {
     return data ? JSON.parse(data) : null;
   }
 
+  setUser(user: any): void {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
   isSuperUsuario(): boolean {
     return this.getUser()?.rol === 'superUsuario';
+  }
+
+  isAdmin(): boolean {
+    return this.getUser()?.rol === 'admin';
+  }
+
+  isCoordinador(): boolean {
+    return this.getUser()?.rol === 'coordinador';
+  }
+
+  canManageConvenios(): boolean {
+    const rol = this.getUser()?.rol;
+    return rol === 'admin' || rol === 'coordinador' || rol === 'superUsuario';
+  }
+
+  canManagePosts(): boolean {
+    const rol = this.getUser()?.rol;
+    return rol === 'admin' || rol === 'superUsuario';
+  }
+
+  canManageCategories(): boolean {
+    const rol = this.getUser()?.rol;
+    return rol === 'admin' || rol === 'superUsuario';
   }
 }

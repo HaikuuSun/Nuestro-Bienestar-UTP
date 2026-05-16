@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-notificaciones',
@@ -8,10 +9,40 @@ import { CommonModule } from '@angular/common';
   templateUrl: './notificaciones.component.html',
   styleUrls: ['./notificaciones.component.css']
 })
-export class NotificacionesComponent {
-  notifications = [
-    { id: 1, title: 'Nueva oferta de salud', message: 'Revisa el convenio de servicios médicos gratuitos.' },
-    { id: 2, title: 'Capacitación disponible', message: 'Hay un nuevo curso de bienestar emocional en línea.' },
-    { id: 3, title: 'Evento deportivo', message: 'Inscríbete al torneo universitario de fútbol sala.' }
-  ];
+export class NotificacionesComponent implements OnInit {
+  notifications: any[] = [];
+  loading = false;
+  errorMessage = '';
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.loadNotifications();
+  }
+
+  loadNotifications(): void {
+    this.loading = true;
+    this.errorMessage = '';
+    this.apiService.getNotifications().subscribe({
+      next: (response) => {
+        this.notifications = response || [];
+        this.loading = false;
+      },
+      error: (error) => {
+        this.errorMessage = error;
+        this.loading = false;
+      }
+    });
+  }
+
+  marcarLeida(id: number): void {
+    this.apiService.markNotificationRead(id).subscribe({
+      next: () => {
+        this.notifications = this.notifications.filter((notification) => notification.id !== id);
+      },
+      error: (error) => {
+        this.errorMessage = error;
+      }
+    });
+  }
 }

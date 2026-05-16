@@ -1,0 +1,57 @@
+<section class="page-header">
+  <h1>Beneficios</h1>
+  <p>Administra las oportunidades y servicios disponibles para la comunidad universitaria.</p>
+</section>
+
+<section class="panel list-panel" *ngIf="canManagePosts">
+  <h2>Crear nuevo beneficio</h2>
+  <label for="titulo">Título</label>
+  <input id="titulo" name="titulo" [(ngModel)]="titulo" placeholder="Título del beneficio" />
+
+  <label for="descripcion">Descripción</label>
+  <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" placeholder="Descripción del beneficio"></textarea>
+
+  <label for="fecha_validez">Fecha de validez</label>
+  <input id="fecha_validez" name="fecha_validez" type="date" [(ngModel)]="fecha_validez" />
+
+  <label for="categoria">Categoría</label>
+  <select id="categoria" name="categoria" [(ngModel)]="categoria_id">
+    <option [ngValue]="null">Selecciona una categoría</option>
+    <option *ngFor="let categoria of categorias" [ngValue]="categoria.id">{{ categoria.nombre }}</option>
+  </select>
+
+  <label>Convenios asociados</label>
+  <div class="checkbox-group">
+    <label *ngFor="let convenio of convenios">
+      <input type="checkbox" [checked]="ids_convenios.includes(convenio.id)" (change)="toggleConvenio(convenio.id)" />
+      {{ convenio.nombre }}
+    </label>
+  </div>
+
+  <button (click)="createBenefit()" [disabled]="saving">{{ saving ? 'Creando...' : 'Crear beneficio' }}</button>
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</section>
+
+<section class="panel list-panel">
+  <h2>Beneficios disponibles</h2>
+  <div *ngIf="loading" class="status">Cargando beneficios...</div>
+  <div *ngIf="!loading && posts.length === 0" class="status">No hay beneficios registrados.</div>
+
+  <ul *ngIf="!loading && posts.length > 0">
+    <li *ngFor="let post of posts">
+      <div class="benefit-header">
+        <div>
+          <h3>{{ post.titulo }}</h3>
+          <span class="meta">Válido hasta: {{ formatDate(post.fecha_validez) }}</span>
+          <span class="meta">Categoría: {{ post.categoria?.nombre || 'Sin categoría' }}</span>
+        </div>
+        <button class="danger" *ngIf="canManagePosts" (click)="eliminarPost(post.id)">Eliminar</button>
+      </div>
+      <p>{{ post.descripcion }}</p>
+      <div class="tag-list" *ngIf="post.convenios?.length > 0">
+        <span *ngFor="let convenio of post.convenios">{{ convenio.nombre }}</span>
+      </div>
+    </li>
+  </ul>
+</section>

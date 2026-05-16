@@ -1,15 +1,36 @@
 <section class="page-header">
   <h1>Perfil</h1>
-  <p>Revisa tus datos de usuario y tu rol actual.</p>
+  <p>Revisa tus datos y actualiza tu información de acceso.</p>
 </section>
 
-<section class="panel profile-panel">
-  <div *ngIf="user; else noUser">
-    <p><strong>Nombre:</strong> {{ user.nombre || 'No disponible' }}</p>
-    <p><strong>Correo:</strong> {{ user.correo || 'No disponible' }}</p>
-    <p><strong>Rol:</strong> {{ user.rol || 'Invitado' }}</p>
+<section class="panel profile-panel" *ngIf="user; else noUser">
+  <div class="field-group">
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="nombre" />
   </div>
-  <ng-template #noUser>
-    <p>No se encontró información del perfil. Inicia sesión nuevamente.</p>
-  </ng-template>
+  <div class="field-group">
+    <label>Correo</label>
+    <input type="email" [(ngModel)]="correo" />
+  </div>
+  <div class="field-group">
+    <label>Celular</label>
+    <input type="tel" [(ngModel)]="celular" />
+  </div>
+  <div class="field-group">
+    <label>Nueva contraseña</label>
+    <input type="password" [(ngModel)]="contrasena" placeholder="Dejar en blanco para no cambiar" />
+  </div>
+
+  <button (click)="actualizarPerfil()" [disabled]="loading">
+    {{ loading ? 'Guardando...' : 'Actualizar perfil' }}
+  </button>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
 </section>
+
+<ng-template #noUser>
+  <section class="panel">
+    <p>No se encontró información del perfil. Inicia sesión nuevamente.</p>
+  </section>
+</ng-template>

@@ -1,20 +1,29 @@
 <section class="page-header">
   <h1>Convenios</h1>
-  <p>Revisa los convenios disponibles para la comunidad universitaria.</p>
+  <p>Revisa los convenios disponibles y gestiona nuevas alianzas.</p>
+</section>
+
+<section class="panel form-panel" *ngIf="canManageConvenios">
+  <h2>Crear nuevo convenio</h2>
+  <label for="nombre">Nombre del convenio</label>
+  <input id="nombre" name="nombre" type="text" [(ngModel)]="nombre" placeholder="Ej. Transporte universitario" />
+  <button (click)="crearConvenio()" [disabled]="saving">{{ saving ? 'Guardando...' : 'Registrar convenio' }}</button>
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
 </section>
 
 <section class="panel list-panel">
   <div *ngIf="loading" class="status">Cargando convenios...</div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  <ul *ngIf="!loading && !errorMessage && convenios.length > 0">
+  <div *ngIf="!loading && !errorMessage && convenios.length === 0" class="status">No se encontraron convenios.</div>
+  <ul *ngIf="!loading && convenios.length > 0">
     <li *ngFor="let convenio of convenios">
-      <div>
-        <h3>{{ convenio.titulo || convenio.nombre || 'Convenio' }}</h3>
-        <p>{{ convenio.descripcion || convenio.resumen || 'Descripción no disponible' }}</p>
+      <div class="convenio-item">
+        <div>
+          <h3>{{ convenio.titulo || convenio.nombre || 'Convenio' }}</h3>
+          <p>{{ convenio.descripcion || 'Descripción no disponible' }}</p>
+        </div>
+        <button class="danger" *ngIf="canManageConvenios" (click)="eliminarConvenio(convenio.id)">Eliminar</button>
       </div>
     </li>
   </ul>
-  <div *ngIf="!loading && !errorMessage && convenios.length === 0" class="status">
-    No se encontraron convenios.
-  </div>
 </section>

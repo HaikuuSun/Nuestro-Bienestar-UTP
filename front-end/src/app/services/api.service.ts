@@ -37,6 +37,60 @@ export class ApiService {
     );
   }
 
+  getMyProfile(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/usuarios/mi-perfil`, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  updateProfile(id: number, datos: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/usuarios/actualizar/${id}`, datos, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  getPosts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/posts/todos`, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  createPost(titulo: string, descripcion: string, fecha_validez: string, categoria_id: number, ids_convenios: number[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/posts/crear`, { titulo, descripcion, fecha_validez, categoria_id, ids_convenios }, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  deletePost(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/posts/eliminar/${id}`, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  createConvenio(nombre: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/convenios/crear`, { nombre }, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  deleteConvenio(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/convenios/eliminar/${id}`, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  getNotifications(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/notificaciones`, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  markNotificationRead(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/notificaciones/${id}/leida`, {}, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
   getCategories(): Observable<any> {
     return this.http.get(`${this.baseUrl}/categorias/todas`, this.getHeaders()).pipe(
       catchError((error) => this.handleError(error))

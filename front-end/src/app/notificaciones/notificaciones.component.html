@@ -4,10 +4,19 @@
 </section>
 
 <section class="panel notifications-panel">
-  <ul>
+  <div *ngIf="loading" class="status">Cargando notificaciones...</div>
+  <div *ngIf="!loading && errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="!loading && !errorMessage && notifications.length === 0" class="status">No tienes notificaciones pendientes.</div>
+
+  <ul *ngIf="!loading && notifications.length > 0">
     <li *ngFor="let notification of notifications">
-      <h3>{{ notification.title }}</h3>
-      <p>{{ notification.message }}</p>
+      <h3>{{ notification.titulo || notification.title }}</h3>
+      <p>{{ notification.mensaje || notification.message }}</p>
+      <div class="notification-meta">
+        <span>{{ notification.tipo || 'info' }}</span>
+        <span>Fecha: {{ notification.fecha_creacion ? (notification.fecha_creacion | date:'mediumDate') : 'N/A' }}</span>
+      </div>
+      <button class="secondary" (click)="marcarLeida(notification.id)">Marcar como leída</button>
     </li>
   </ul>
 </section>
