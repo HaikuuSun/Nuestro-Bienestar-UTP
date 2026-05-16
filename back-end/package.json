@@ -4,9 +4,10 @@
   "description": "Backend API para Nuestro Bienestar - Plataforma de Bienestar y Convenios",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "npm run seed && nodemon server.js",
+    "seed": "node seed.js",
     "start": "node server.js",
-    "db:init": "mysql --host=%DB_HOST% --port=%DB_PORT% --user=%DB_USER% --password=%DB_PASSWORD% < seeders/init_schema_and_seed.sql",
+    "db:init": "node seed.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gen-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
   },
