@@ -36,7 +36,16 @@ app.use('/api/v1/posts', postRoutes);
 app.use('/api/v1/suscripciones', suscripcionRoutes);
 app.use('/api/v1/notificaciones', notificacionRoutes);
 
-// Ruta de prueba de salud
+// Ruta de salud simple (sin autenticación)
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
+// Ruta de prueba de salud versioned
 app.get('/api/v1/health', (req, res) => {
     res.status(200).json({
         success: true,
