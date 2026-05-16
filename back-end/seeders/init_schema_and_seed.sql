@@ -120,7 +120,8 @@ INSERT IGNORE INTO `permisos` (`nombre`, `descripcion`) VALUES
     ('manage_categorias', 'Gestionar categorías'),
     ('view_notificaciones', 'Ver notificaciones'),
     ('manage_suscripciones', 'Gestionar suscripciones de categorías'),
-    ('manage_roles', 'Gestionar roles y permisos');
+    ('manage_roles', 'Gestionar roles y permisos'),
+    ('create_users', 'Permitir crear nuevos usuarios');
 
 -- Asignaciones de permisos por rol
 INSERT IGNORE INTO `rol_permisos` (`rol_id`, `permiso_id`)
@@ -138,7 +139,7 @@ WHERE r.nombre = 'admin';
 INSERT IGNORE INTO `rol_permisos` (`rol_id`, `permiso_id`)
 SELECT r.id, p.id
 FROM `roles` r
-JOIN `permisos` p ON p.nombre IN ('view_posts', 'create_posts', 'update_posts', 'delete_posts', 'view_convenios', 'manage_convenios', 'manage_categorias', 'view_notificaciones', 'manage_suscripciones', 'manage_roles')
+JOIN `permisos` p ON p.nombre IN ('view_posts', 'create_posts', 'update_posts', 'delete_posts', 'view_convenios', 'manage_convenios', 'manage_categorias', 'view_notificaciones', 'manage_suscripciones', 'manage_roles', 'create_users')
 WHERE r.nombre = 'superUsuario';
 
 -- Configuraciones iniciales

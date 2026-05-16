@@ -1,4 +1,5 @@
 const Usuario = require('../models/usuario.model.js');
+const Rol = require('../models/rol.model');
 const bcrypt = require('bcryptjs');
 
 // =================================================================================================== //
@@ -14,7 +15,7 @@ async function verificarDatoRepetido(campo, valor, mensaje) {
 }
 
 async function verificarUsuarioExistente(id) {
-    const usuario = await Usuario.findByPK(id);
+    const usuario = await Usuario.findByPk(id);
 
     if (!usuario) {
         throw new Error('No se encuentra un usuario con este ID.');
@@ -23,17 +24,36 @@ async function verificarUsuarioExistente(id) {
     return usuario;
 }
 
+async function obtenerIdRol(rolIdentificador) {
+    if (!rolIdentificador) {
+        throw new Error('El rol es requerido para registrar el usuario.');
+    }
+
+    if (typeof rolIdentificador === 'number' || /^[0-9]+$/.test(String(rolIdentificador))) {
+        return Number(rolIdentificador);
+    }
+
+    const rol = await Rol.findOne({ where: { nombre: rolIdentificador } });
+    if (!rol) {
+        throw new Error(`No existe el rol '${rolIdentificador}'.`);
+    }
+
+    return rol.id;
+}
+
 // =================================================================================================== //
 // Crear un usuario
-exports.crearUsuario = async (nombre, correo, celular, contrasena, rol_id) => {
+exports.crearUsuario = async (nombre, correo, celular, contrasena, rolIdentificador) => {
     try {
         // 1. Verificaciones
         await verificarDatoRepetido('correo', correo, 'Este correo ya está en uso.');
         if (celular != null) {
-            await verificarDatoRepetido('celular', celular, 'Este número de celular ya está registrado.')
+            await verificarDatoRepetido('celular', celular, 'Este número de celular ya está registrado.');
         }
 
-        // 2. Encriptado de la contraseña (límite de 10 caracteres)
+        const rol_id = await obtenerIdRol(rolIdentificador);
+
+        // 2. Encriptado de la contraseña
         const hashedPass = await bcrypt.hash(contrasena, 10);
 
         // 3. Empaquetar los datos para realizar el registro

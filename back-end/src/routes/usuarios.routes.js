@@ -4,11 +4,18 @@ const usuarioController = require('../controllers/usuario.controller');
 const { autenticarJWT, autorizarRol } = require('../middlewares/auth.middleware');
 const ROLES = require('../config/roles');
 
-// Solo los administradores pueden registrar usuarios
+// Solo los superUsuarios pueden registrar usuarios
 router.post('/registro',
     autenticarJWT,
-    autorizarRol(ROLES.ADMIN.nombre),
+    autorizarRol(ROLES.SUPER_USUARIO.nombre),
     usuarioController.crearUsuario
+);
+
+// Solo admins y superUsuarios pueden obtener la lista de roles disponibles
+router.get('/roles',
+    autenticarJWT,
+    autorizarRol(ROLES.SUPER_USUARIO.nombre, ROLES.ADMIN.nombre),
+    usuarioController.obtenerRoles
 );
 
 // Administradores y coordinadores pueden obtener cualquier usuario por su ID

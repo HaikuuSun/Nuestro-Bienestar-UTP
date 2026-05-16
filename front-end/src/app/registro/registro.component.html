@@ -1,0 +1,59 @@
+<section class="registro-panel">
+  <h2>Registrar nuevo usuario</h2>
+  <p>Solo los superUsuarios pueden crear cuentas con correo institucional @utp.edu.co.</p>
+
+  <form (ngSubmit)="register()" #registroForm="ngForm" autocomplete="off">
+    <label for="nombre">Nombre completo</label>
+    <input
+      id="nombre"
+      name="nombre"
+      type="text"
+      [(ngModel)]="nombre"
+      required
+      placeholder="Ej. Juan Pérez"
+    />
+
+    <label for="correo">Correo institucional</label>
+    <input
+      id="correo"
+      name="correo"
+      type="email"
+      [(ngModel)]="correo"
+      required
+      placeholder="usuario@utp.edu.co"
+    />
+
+    <label for="celular">Celular (opcional)</label>
+    <input
+      id="celular"
+      name="celular"
+      type="tel"
+      [(ngModel)]="celular"
+      placeholder="3001234567"
+    />
+
+    <label for="contrasena">Contraseña</label>
+    <input
+      id="contrasena"
+      name="contrasena"
+      type="password"
+      [(ngModel)]="contrasena"
+      required
+      minlength="6"
+      placeholder="******"
+    />
+
+    <label for="rol">Rol asignado</label>
+    <select id="rol" name="rol" [(ngModel)]="rol">
+      <option value="usuarios">usuarios</option>
+      <option value="admin">admin</option>
+    </select>
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Registrando...' : 'Registrar usuario' }}
+    </button>
+
+    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</section>

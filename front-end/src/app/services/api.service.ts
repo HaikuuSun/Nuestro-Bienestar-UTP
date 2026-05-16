@@ -31,6 +31,12 @@ export class ApiService {
     );
   }
 
+  registerUser(nombre: string, correo: string, celular: string | null, contrasena: string, rol: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/usuarios/registro`, { nombre, correo, celular, contrasena, rol }, this.getHeaders()).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
   getCategories(): Observable<any> {
     return this.http.get(`${this.baseUrl}/categorias/todas`, this.getHeaders()).pipe(
       catchError((error) => this.handleError(error))

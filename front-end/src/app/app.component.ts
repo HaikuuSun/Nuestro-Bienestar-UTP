@@ -18,6 +18,10 @@ export class AppComponent {
     return this.authService.isAuthenticated();
   }
 
+  showRegisterLink(): boolean {
+    return this.authService.isSuperUsuario();
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

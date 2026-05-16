@@ -31,4 +31,8 @@ export class AuthService {
     const data = localStorage.getItem('user');
     return data ? JSON.parse(data) : null;
   }
+
+  isSuperUsuario(): boolean {
+    return this.getUser()?.rol === 'superUsuario';
+  }
 }

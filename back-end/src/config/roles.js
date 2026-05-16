@@ -1,22 +1,32 @@
 module.exports = {
+    USUARIOS: {
+        nombre: 'usuarios',
+        descripcion: 'Usuario institucional estándar',
+        rutas: ['/perfil', '/notificaciones']
+    },
     ADMIN: {
-        nombre: 'Administrador',
-        descripcion: 'Acceso total al sistema',
-        rutas: ['*']  // Acceso para todas las rutas
+        nombre: 'admin',
+        descripcion: 'Administrador con permisos de gestión',
+        rutas: ['*']
+    },
+    SUPER_USUARIO: {
+        nombre: 'superUsuario',
+        descripcion: 'Superusuario con permisos para gestionar cuentas y configuración',
+        rutas: ['*']
     },
     COORDINADOR: {
-        nombre: 'Coordinador',
-        descripcion: 'Puede leer usuarios, actualizar beneficios y gestionar convenios',
-        rutas: ['/usuarios', '/beneficios', '/convenios']
+        nombre: 'coordinador',
+        descripcion: 'Coordinador para gestión parcial de convenios y usuarios',
+        rutas: ['/usuarios', '/convenios']
     },
     DOCENTE: {
-        nombre: 'Docente',
-        descripcion: 'Gestión de su propio perfil, lectura y gestión de sus inscripciones a beneficios',
-        rutas: ['/perfil', '/beneficios/buscar', '/beneficios/inscribir']
+        nombre: 'docente',
+        descripcion: 'Docente con acceso a perfil y consulta de beneficios',
+        rutas: ['/perfil']
     },
-    DEPENDENDIENTE: {
-        nombre: 'Personal dependiente',
-        descripcion: 'Gestión de su propio perfil, lectura y gestión de sus inscripciones a beneficios',
-        rutas: ['/perfil', '/beneficios/buscar', '/beneficios/inscribir']
+    DEPENDIENTE: {
+        nombre: 'dependiente',
+        descripcion: 'Personal dependiente con acceso limitado',
+        rutas: ['/perfil']
     }
 };
