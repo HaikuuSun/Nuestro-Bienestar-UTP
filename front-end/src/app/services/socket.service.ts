@@ -1,32 +1,48 @@
+import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
+import { environment } from '../../environments/environment';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class SocketService {
-    private socket: Socket;
-    
-    constructor() {
-        // Conectar hacia el backend (Express)
-        this.socket = io('http://localhost:3000', {
-            transports: ['websocket'], // Mejora en rendimiento
-            auth: {
-                // Enviar token para autenticación
-                token: localStorage.getItem('jwt_token')
-            }
-        });
+  private socket: Socket | null = null;
+
+  connect(): void {
+    if (this.socket && this.socket.connected) {
+      return;
     }
 
-    registrarUsuario(usuarioId: number): void {
-        this.socket.emit('registrar_usuario', usuarioId);
-    }
+    const token = localStorage.getItem('token') || '';
+    this.socket = io(environment.socketUrl, {
+      transports: ['websocket'],
+      auth: {
+        token
+      },
+      withCredentials: true
+    });
+  }
 
-    escucharNotificaciones(callback: (data: any) => void): void {
-        this.socket.on('nueva_notificacion', callback);
+  registrarUsuario(usuarioId: number): void {
+    if (!this.socket) {
+      this.connect();
     }
+    this.socket?.emit('registrar_usuario', usuarioId);
+  }
 
-    desconectar(): void {
-        this.socket.disconnect();
+  escucharNotificaciones(callback: (data: any) => void): void {
+    if (!this.socket) {
+      this.connect();
     }
+    this.socket?.on('nueva_notificacion', callback);
+  }
 
-    getSocket(): Socket {
-        return this.socket;
-    }
+  desconectar(): void {
+    this.socket?.disconnect();
+    this.socket = null;
+  }
+
+  getSocket(): Socket | null {
+    return this.socket;
+  }
 }

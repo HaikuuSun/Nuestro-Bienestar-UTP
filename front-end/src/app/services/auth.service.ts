@@ -12,14 +12,29 @@ export class AuthService {
   login(correo: string, contrasena: string): Observable<any> {
     return this.api.login(correo, contrasena).pipe(
       tap((response: any) => {
-        localStorage.setItem('token', response.token);
+        const token = response.accessToken || response.token;
+        localStorage.setItem('token', token);
+        if (response.refreshToken) {
+          localStorage.setItem('refreshToken', response.refreshToken);
+        }
         localStorage.setItem('user', JSON.stringify(response.usuario));
+      })
+    );
+  }
+
+  refreshToken(): Observable<any> {
+    const refreshToken = localStorage.getItem('refreshToken') || '';
+    return this.api.refreshToken(refreshToken).pipe(
+      tap((response: any) => {
+        const accessToken = response.accessToken || response.token;
+        localStorage.setItem('token', accessToken);
       })
     );
   }
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
   }
 
